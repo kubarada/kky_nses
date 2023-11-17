@@ -7,8 +7,8 @@ np.random.shuffle(dataset)
 data = dataset[0:399, :]
 test = dataset[400:498, :]
 
-activation_function = 'sigmoid'
-if activation_function == 'sigmoid':
+activation_function = 'bipolar'
+if activation_function == 'bipolar':
     U = np.array([[1, -1, -1, -1, -1],
                  [-1, 1, -1, -1, -1],
                  [-1, -1, 1, -1, -1],
