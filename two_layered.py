@@ -31,7 +31,7 @@ d = np.random.randn(5, 1)  # náhodné prahy druhé vrstvy
 lr = 0.01
 error_max = 1
 error = 0
-epochs = 100
+epochs = 1500
 errors = []
 
 for i in range(epochs):
@@ -60,8 +60,6 @@ for i in range(epochs):
         error = 0
         np.random.shuffle(data)
 
-print(errors)
-
 plt.plot(range(len(errors)), errors)
 plt.grid()
 plt.title('Vývoj chyby')
@@ -76,6 +74,37 @@ y_min = np.min(data[:, 1])
 
 plt.scatter(data[:, 0], data[:,1])
 plt.title('Distribuce dat - train')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid()
+x = np.linspace(x_min-1, x_max+1)
+for i in range(len(W)):
+    y = (W[i, 0]*x + b[i])/(-W[i, 1])
+    plt.plot(x, y)
+plt.xlim([x_min-1, x_max+1])
+plt.ylim([y_min-1, y_max+1])
+plt.show()
+
+# inference
+errors = []
+
+for k in range(len(test)):
+
+    x = test[k, 0:2].reshape(-1,1)
+    xi = np.dot(W, x) + b
+    z = methods.sigmoid(xi)
+    zi = np.dot(V, z) + d
+    y = methods.sigmoid(zi)
+    u = methods.get_wanted(test, k, U).reshape(-1,1)
+    error = error + np.dot(1 / 2, np.dot((u - y).reshape(1, -1), (u - y)))
+
+x_max = np.max(test[:, 0])
+x_min = np.min(test[:, 0])
+y_max = np.max(test[:, 1])
+y_min = np.min(test[:, 1])
+
+plt.scatter(test[:, 0], test[:,1])
+plt.title('Distribuce dat - test')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.grid()
