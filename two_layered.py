@@ -36,6 +36,7 @@ errors = []
 
 for i in range(epochs):
     for k in range(len(data)):
+
         x = data[k, 0:2].reshape(-1,1)
         xi = np.dot(W, x) + b
         z = methods.sigmoid(xi)
@@ -46,9 +47,45 @@ for i in range(epochs):
         dz = methods.diff(z)
         dy = methods.diff(y)
 
-        part1 = lr * ((u - y)* dy* V).reshape(-1,1)
-        print(part1)
-        part2 = dz@x.reshape(-1,1)
-        W = W + part1@part2
+        W = W + np.dot(lr * ((u - y) * dy * V).T, np.ones((5,1))) * dz @x.T
+        b = b + np.dot(lr * ((u - y) * dy * V).T, np.ones((5, 1))) * dz
+        V = V + lr * ((u - y) * dy)@z.T
+        d = d + lr * ((u - y) * dy)
+
+        error = error + np.dot(1 / 2, np.dot((u - y).reshape(1, -1), (u - y)))
+    errors.append(int(error))
+    if error < error_max:
+        break
+    else:
+        error = 0
+        np.random.shuffle(data)
+
+print(errors)
+
+plt.plot(range(len(errors)), errors)
+plt.grid()
+plt.title('Vývoj chyby')
+plt.xlabel('Epocha')
+plt.ylabel('Hodnota chyby')
+plt.show()
+
+x_max = np.max(data[:, 0])
+x_min = np.min(data[:, 0])
+y_max = np.max(data[:, 1])
+y_min = np.min(data[:, 1])
+
+plt.scatter(data[:, 0], data[:,1])
+plt.title('Distribuce dat - train')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid()
+x = np.linspace(x_min-1, x_max+1)
+for i in range(len(W)):
+    y = (W[i, 0]*x + b[i])/(-W[i, 1])
+    plt.plot(x, y)
+plt.xlim([x_min-1, x_max+1])
+plt.ylim([y_min-1, y_max+1])
+plt.show()
+
 
 
