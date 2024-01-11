@@ -121,5 +121,3 @@ for i in range(len(W)):
 plt.xlim([x_min-1, x_max+1])
 plt.ylim([y_min-1, y_max+1])
 plt.show()
-
-

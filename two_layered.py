@@ -39,7 +39,7 @@ b = np.random.randn(4, 1)  # náhodné prahy první vrstvy
 V = np.random.randn(5, neurons_count)  # nahodné váhy druhé vrstvy
 d = np.random.randn(5, 1)  # náhodné prahy druhé vrstvy
 
-lr = 0.01
+lr = 0.00001
 error_max = 1
 error = 0
 epochs = 1500
@@ -160,11 +160,13 @@ grid3 = grid[grid[:, 2] == 3]
 grid4 = grid[grid[:, 2] == 4]
 grid5 = grid[grid[:, 2] == 5]
 
+
 plt.scatter(grid1[:, 0], grid1[:,1], marker='o')
 plt.scatter(grid2[:, 0], grid2[:,1], marker='o')
 plt.scatter(grid3[:, 0], grid3[:,1], marker='o')
 plt.scatter(grid4[:, 0], grid4[:,1], marker='o')
 plt.scatter(grid5[:, 0], grid5[:,1], marker='o')
+plt.scatter(test[:, 0], test[:,1], marker='o', color = 'black')
 plt.title('Distribuce dat - test')
 plt.xlabel('x')
 plt.ylabel('y')
