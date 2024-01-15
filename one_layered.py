@@ -55,7 +55,7 @@ for i in range(epochs):
         break
     else:
         error = 0
-        #np.random.shuffle(data)
+        np.random.shuffle(data)
 
 print(errors)
 
